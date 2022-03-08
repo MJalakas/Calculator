@@ -34,7 +34,7 @@ function operate(operator, a, b) {
     }
 }
 
-let operatorOnScreen, numberOnScreen, secondNumber, moreThanTwo, equalsClicked, midResult, lastButton;
+let result, operatorOnScreen, numberOnScreen, secondNumber, moreThanTwo, equalsClicked, midResult, lastButton;
 
 buttons.forEach(function(button) {
     button.addEventListener("mousedown", function() {
@@ -149,7 +149,8 @@ buttons.forEach(function(button) {
 
             } else {
 
-                if (screen.textContent.length < 8 || parseInt(screen.textContent) === midResult) {
+                if (screen.textContent.length < 8 || parseInt(screen.textContent) === midResult
+                    || parseInt(screen.textContent) === parseInt(result)) {
 
                     if (equalsClicked === true) {
                         equalsClicked = false;
