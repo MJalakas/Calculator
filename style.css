@@ -27,6 +27,7 @@ body {
 .screen {
     display:flex;
     flex-direction:column;
+    justify-content: space-around;
     margin-top:10px;
     background-color:white;
     width:95%;
@@ -52,14 +53,18 @@ body {
     justify-content:space-between;
 }
 
-.operator-wrapper {
+.operator-span-wrapper {
     width:10%;
+    display:flex;
+    align-items:center;
 }
+
 
 .numbers-wrapper {
     max-width:85%;
     display:flex;
     flex-wrap:wrap;
+    align-items: center;
 }
 
 .buttons-wrapper {

@@ -49,7 +49,6 @@ buttons.forEach(function(button) {
         button.style.borderColor = "#EBF6FF";
         button.style.backgroundColor = "peachpuff";
 
-
         if (button.textContent === "=") {
             if (operatorScreen.textContent === "" || lastButton === "operand") {
                 // pass 
@@ -71,7 +70,13 @@ buttons.forEach(function(button) {
                 if (String(result).length > 8) {
                     screen.style.fontSize = "35px";
                 };
-                screen.textContent = result;
+
+                if (String(result).length >= 20) {
+                    screen.textContent = "Result too long";
+                } else {
+                    screen.textContent = result;
+                }
+            
 
                 equalsClicked = true;
                 midResult = undefined;
@@ -132,11 +137,19 @@ buttons.forEach(function(button) {
                     // after calculating with old operand, switch to new operand.
                     operatorOnScreen = button.textContent;
                     operatorScreen.textContent = operatorOnScreen;
+
+                    if (String(midResult).length > 15) {
+                        screen.textContent = "Result too long";
+                    }
                 };
+
+            } else if ((button.textContent === "." && screen.textContent === "")
+                        || (button.textContent === "." && screen.textContent.includes("."))) {
+                //pass
 
             } else {
 
-                if (screen.textContent.length < 8) {
+                if (screen.textContent.length < 8 || parseInt(screen.textContent) === midResult) {
 
                     if (equalsClicked === true) {
                         equalsClicked = false;
@@ -171,7 +184,12 @@ buttons.forEach(function(button) {
             button.style.borderColor = "black";
             button.style.backgroundColor = originalColor;
         }, 100);
+
+        if (screen.textContent.length > 8) {
+            screen.style.fontSize = "30px";
+        }
     });
 });
 
 // TO-DO: add keyboard support
+// TO-DO: add backspace
