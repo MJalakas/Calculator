@@ -1,6 +1,12 @@
+a {
+    color: black;
+    text-decoration: none; /* no underline */
+  }
+
 body {
     display:flex;
-    justify-content: center;
+    flex-direction:column;
+    align-items:center;
     padding-top:50px;
     box-sizing:border-box;
     font-family: 'Roboto Mono', monospace;
@@ -11,7 +17,7 @@ body {
     justify-content:space-around;
     background-color:#EBF6FF;
     width:500px;
-    height:650px;
+    height:700px;
     flex-wrap:wrap;
     padding:30px;
     border-style:solid;
@@ -20,16 +26,30 @@ body {
 
 .screen {
     display:flex;
+    flex-direction:column;
     margin-top:10px;
     background-color:white;
     width:95%;
-    height:20%;
+    height:25%;
     border-style:solid;
-    align-items:center;
-    justify-content:space-between;
     padding:20px;
     box-sizing:border-box;
     font-size:75px;
+}
+
+.screen-top-row {
+    display:flex;
+    justify-content: flex-end;
+    min-height:17.5%;
+}
+
+.history-wrapper {
+    font-size:15px;
+}
+
+.screen-bottom-row {
+    display:flex;
+    justify-content:space-between;
 }
 
 .operator-wrapper {
@@ -47,8 +67,9 @@ body {
     display:flex;
     flex-direction:column;
     flex-wrap:wrap;
-    height:80%;
+    height:75%;
     margin-top:30px;
+    margin-bottom:30px;
     box-sizing:border-box;
     -webkit-user-select: none; /* Safari */        
     -moz-user-select: none; /* Firefox */
@@ -75,4 +96,8 @@ body {
     margin:10px;
     border-radius:4px;
     box-sizing:border-box;
+}
+
+#equals, #plus, #minus, #times, #divided, #clear {
+    background-color:lightgoldenrodyellow;
 }
