@@ -209,6 +209,8 @@ buttons.forEach(function(button) {
 // start keyboard support here
 document.addEventListener("keydown", function (event) {
 
+    screen.style.fontSize = "75px";
+
     if (event.key === "=" || event.key === "Enter") {
         if (operatorScreen.textContent === "" || lastButton === "operand") {
             // pass 
@@ -290,7 +292,13 @@ document.addEventListener("keydown", function (event) {
             }
 
             // after calculating with old operand, switch to new operand.
-            operatorOnScreen = event.key;
+            if (event.key === "+" || event.key === "-") {
+                operatorOnScreen = event.key;
+            } else if (event.key === "*") {
+                operatorOnScreen = "x";
+            } else {
+                operatorOnScreen = "÷";
+            };
             operatorScreen.textContent = operatorOnScreen;
 
             if (String(midResult).length > 15) {
@@ -351,4 +359,9 @@ document.addEventListener("keydown", function (event) {
             // pass 
         }
     };
-})
+
+    if (screen.textContent.length > 8) {
+        screen.style.fontSize = "30px";
+    };
+    
+});
