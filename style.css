@@ -10,6 +10,7 @@ body {
     padding-top:50px;
     box-sizing:border-box;
     font-family: 'Roboto Mono', monospace;
+    background-image: url("background.jpg");
 }
 
 .calculator-wrapper {
@@ -22,6 +23,12 @@ body {
     padding:30px;
     border-style:solid;
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.2), 0 24px 30px 0 rgba(0, 0, 0, 0.19);
+}
+
+.upper-buttons {
+    display:flex;
+    width:50%;
+    align-self:flex-end;
 }
 
 .screen {
@@ -103,6 +110,11 @@ body {
     box-sizing:border-box;
 }
 
-#equals, #plus, #minus, #times, #divided, #clear {
+#equals, #plus, #minus, #times, #divided, #clear, #backspace {
     background-color:lightgoldenrodyellow;
+}
+
+#clear, #backspace {
+    width:100%;
+    font-size:25px;
 }

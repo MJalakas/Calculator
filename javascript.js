@@ -37,6 +37,7 @@ function operate(operator, a, b) {
 let result, operatorOnScreen, numberOnScreen, secondNumber, moreThanTwo, equalsClicked, midResult, lastButton;
 
 buttons.forEach(function(button) {
+
     button.addEventListener("mousedown", function() {
 
         // initialize
@@ -83,7 +84,7 @@ buttons.forEach(function(button) {
                 operatorOnScreen = undefined;
                 secondNumber = undefined;
                 numberOnScreen = result;
-            }
+            };
 
         } else if (button.textContent === "CLEAR") {
             screen.textContent = "";
@@ -147,6 +148,16 @@ buttons.forEach(function(button) {
                         || (button.textContent === "." && screen.textContent.includes("."))) {
                 //pass
 
+            } else if (button.textContent === "⟵") {
+                // removes last number from screen if its not the result of a calculation
+                if (screen.textContent != String(result) && screen.textContent != String(midResult)) {
+                    screen.textContent = screen.textContent.slice(0, -1);
+                    numberOnScreen = screen.textContent;
+        
+                } else {
+                    // pass 
+                }
+
             } else {
 
                 if (screen.textContent.length < 8 || parseInt(screen.textContent) === midResult
@@ -171,14 +182,15 @@ buttons.forEach(function(button) {
                         numberOnScreen = screen.textContent;
                     } else {
                         secondNumber = screen.textContent;
-                    }
+                    };
 
                 } else {
                     // pass
-                }
+                };
 
-
+            
             };
+
         };
         // change color back to original after x seconds
         colorChangeTimeout = setTimeout(function() {
@@ -188,9 +200,155 @@ buttons.forEach(function(button) {
 
         if (screen.textContent.length > 8) {
             screen.style.fontSize = "30px";
-        }
+        };
+
+    
     });
 });
 
-// TO-DO: add keyboard support
-// TO-DO: add backspace
+// start keyboard support here
+document.addEventListener("keydown", function (event) {
+
+    if (event.key === "=" || event.key === "Enter") {
+        if (operatorScreen.textContent === "" || lastButton === "operand") {
+            // pass 
+
+        } else {
+            history.textContent = "";
+            // save second number to variable from screen
+            secondNumber = screen.textContent;
+            // clean screen before result
+            screen.textContent = "";
+            operatorScreen.textContent = "";
+            // calculate result & return on screen
+            if (midResult === undefined) {
+                result = operate(operatorOnScreen, numberOnScreen, secondNumber);
+            } else {
+                result = operate(operatorOnScreen, midResult, secondNumber);
+            }
+
+            if (String(result).length > 8) {
+                screen.style.fontSize = "35px";
+            };
+
+            if (String(result).length >= 20) {
+                screen.textContent = "Result too long";
+            } else {
+                screen.textContent = result;
+            }
+        
+            equalsClicked = true;
+            midResult = undefined;
+            operatorOnScreen = undefined;
+            secondNumber = undefined;
+            numberOnScreen = result;
+        };
+
+
+    } else if (event.key === "+" || event.key === "-"
+            || event.key === "/" || event.key === "*") {
+
+        // if operator is on screen, but no number, don't do anything.
+        if (operatorScreen.textContent != "" && screen.textContent === "") {
+            // pass
+
+        // if this is the first operator, do this:
+        } else if (secondNumber === undefined) {
+            if (event.key === "+" || event.key === "-") {
+                operatorOnScreen = event.key;
+            } else if (event.key === "*") {
+                operatorOnScreen = "x";
+            } else {
+                operatorOnScreen = "÷";
+            };
+            history.textContent += numberOnScreen;
+            operatorScreen.textContent = operatorOnScreen;
+            screen.textContent = "";
+            lastButton = "operand";
+
+        // if there have been operators before, do this:
+        } else {
+
+            if (midResult === undefined) {
+                midResult = operate(operatorOnScreen, numberOnScreen, secondNumber);
+                screen.textContent = midResult;
+                moreThanTwo = true;
+                history.textContent = midResult;
+                lastButton = "operand";
+
+            } else if (lastButton === "operand") {
+                // pass
+            
+            } else {
+                numberOnScreen = screen.textContent;
+                secondNumber = midResult;
+                midResult = operate(operatorOnScreen, numberOnScreen, secondNumber);
+                screen.textContent = midResult;
+                moreThanTwo = true;
+                history.textContent = midResult;
+                lastButton = "operand";
+            }
+
+            // after calculating with old operand, switch to new operand.
+            operatorOnScreen = event.key;
+            operatorScreen.textContent = operatorOnScreen;
+
+            if (String(midResult).length > 15) {
+                screen.textContent = "Result too long";
+            }
+        };
+    
+    } else if (event.key === "." && screen.textContent.includes(".")
+            || event.key === "." && screen.textContent === "") {
+        //pass
+
+    } else if (event.key === "Delete") {
+        screen.textContent = "";
+        operatorScreen.textContent = "";
+        operatorOnScreen = undefined;
+        numberOnScreen = undefined;
+        secondNumber = undefined;
+        midResult = undefined;
+        history.textContent = "";
+
+    // if a number is pressed, return the number
+    } else if (parseInt(event.key) < 10 || event.key === ".") {
+        if (screen.textContent.length < 8 || parseInt(screen.textContent) === midResult
+            || parseInt(screen.textContent) === parseInt(result)) {
+
+            if (equalsClicked === true) {
+                equalsClicked = false;
+                screen.textContent = "";
+            };
+
+            if (moreThanTwo === true) {
+                moreThanTwo = false;
+                screen.textContent = "";
+            }; 
+
+            lastButton = "number";
+            
+
+            screen.textContent += event.key;
+
+            if (operatorOnScreen === undefined) {
+                numberOnScreen = screen.textContent;
+            } else {
+                secondNumber = screen.textContent;
+            };
+
+        } else {
+            // pass
+        };
+
+    } else if (event.key === "Backspace") {
+        // removes last number from screen if its not the result of a calculation
+        if (screen.textContent != String(result) && screen.textContent != String(midResult)) {
+            screen.textContent = screen.textContent.slice(0, -1);
+            numberOnScreen = screen.textContent;
+
+        } else {
+            // pass 
+        }
+    };
+})
